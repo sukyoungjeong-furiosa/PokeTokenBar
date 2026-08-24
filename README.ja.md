@@ -169,6 +169,16 @@ swift test                   # ユニットテスト
 ./scripts/build-app.sh       # release → PokeTokenBar.app → /Applications
 ```
 
+### Kubernetes 上のリモート Codex ログ（実験的）
+
+Codex が Kubernetes Pod 内で動作する場合、セッションログをローカルへミラーし、Codex のスキャンフォルダとして登録できます。
+
+```bash
+./scripts/sync-k8s-codex.sh --pod my-codex-pod --configure --watch
+```
+
+Pod 名は `--pod` で指定し、既定値は `<ローカルユーザー名>-0` です。そのほかの既定値は現在の kubectl context の namespace、container `workspace`、リモートパス `/root/.codex` です。全オプションと環境変数は `--help` で確認できます。最初の `--configure` 後に PokeTokenBar を再起動してください。初回は rollout 履歴全体をコピーし、以後は最近の変更だけを転送します。ローカルミラーには会話内容を含む Codex JSONL 全体が PokeTokenBar の Application Support フォルダ内に保存されます。
+
 ## データソース
 
 | ソース | 用途 | 備考 |

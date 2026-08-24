@@ -169,6 +169,16 @@ swift test                   # unit tests
 ./scripts/build-app.sh       # release → PokeTokenBar.app → /Applications
 ```
 
+### Kubernetes remote Codex logs (experimental)
+
+If Codex runs inside a Kubernetes pod, mirror its session logs locally and register the mirror as a Codex scan folder:
+
+```bash
+./scripts/sync-k8s-codex.sh --pod my-codex-pod --configure --watch
+```
+
+The pod can be set with `--pod`; the default is `<local-user>-0`. The other defaults are the current kubectl context's namespace, container `workspace`, and remote path `/root/.codex`. See `--help` for every flag and environment override. Restart PokeTokenBar after the first `--configure`. The first sync copies the complete rollout history; later syncs transfer only recent changes. The local mirror contains the full Codex JSONL, including conversation content, under PokeTokenBar's Application Support directory.
+
 ## Data sources
 
 | Source | Used for | Notes |
