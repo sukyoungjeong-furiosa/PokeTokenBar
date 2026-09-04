@@ -169,15 +169,15 @@ swift test                   # 단위 테스트
 ./scripts/build-app.sh       # release → PokeTokenBar.app → /Applications
 ```
 
-### Kubernetes 원격 Codex 로그 (실험적)
+### Kubernetes 원격 Codex / Claude Code 로그 (실험적)
 
-Codex가 Kubernetes Pod 안에서 실행된다면 세션 로그를 로컬로 미러링하고 Codex 스캔 폴더로 등록할 수 있습니다.
+Codex나 Claude Code가 Kubernetes Pod 안에서 실행된다면 세션 로그를 로컬로 미러링하고 스캔 폴더로 등록할 수 있습니다.
 
 ```bash
-./scripts/sync-k8s-codex.sh --pod my-codex-pod --configure --watch
+./scripts/sync-k8s-usage.sh --pod my-pod --configure --watch
 ```
 
-Pod 이름은 `--pod`로 지정하며 기본값은 `<로컬 사용자명>-0`입니다. 나머지 기본값은 현재 kubectl context의 namespace, container `workspace`, 원격 경로 `/root/.codex`입니다. 전체 옵션과 환경변수는 `--help`에서 확인할 수 있습니다. 첫 `--configure` 후 PokeTokenBar를 재시작하세요. 최초 실행은 전체 rollout 기록을 복사하고 이후에는 최근 변경분만 전송합니다. 로컬 미러에는 대화 내용을 포함한 Codex JSONL 전체가 PokeTokenBar의 Application Support 폴더 아래에 저장됩니다.
+한 번 실행하면 두 도구를 모두 동기화하며, Pod에 디렉터리가 없는 도구는 건너뜁니다. Pod 이름은 `--pod`로 지정하며 기본값은 `<로컬 사용자명>-0`입니다. 나머지 기본값은 현재 kubectl context의 namespace, container `workspace`, 원격 경로 `/root/.codex`와 `/root/.claude`입니다(후자는 `projects/`만 미러링하므로 자격 증명과 프롬프트 기록은 Pod에 남습니다). 전체 옵션과 환경변수는 `--help`에서 확인할 수 있습니다. 첫 `--configure` 후 PokeTokenBar를 재시작하세요. 최초 실행은 전체 기록을 복사하고 이후에는 최근 변경분만 전송합니다. 로컬 미러에는 대화 내용을 포함한 JSONL 전체가 PokeTokenBar의 Application Support 폴더 아래에 저장됩니다.
 
 ## 데이터 소스
 
